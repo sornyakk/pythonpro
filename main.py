@@ -1,21 +1,13 @@
-meme_dict = {
-    "ЛОЛ": "очень смешно",
-    "КРИНЖ": "что-то странное, стыдное",
-    "РОФЛ": "шутка",
-    "ЩИЩ": "одобрение или восторг",
-    "КРИПОВЫЙ": "страшный, пугающий",
-    "АГРИТЬСЯ": "злиться"
-}
 
-print("Привет! Я программа-объяснилка мемов.")
-print("Известные слова:", ", ".join(meme_dict.keys()))
-print()
+from telebot.async_telebot import AsyncTeleBot
 
-for i in range(5):
-    word = input("Введите непонятное слово (большими буквами!): ").upper()
-    
-    if word in meme_dict:
-        print(word, "-", meme_dict[word])
-    else:
-        print("Такого слова нет в словаре")
-    print()
+import telebot
+bot = AsyncTeleBot('8922425662:AAEN_9fvtPac70cRfknerHSvIKK8cNl5wRw')
+
+@bot.chat_join_request_handler()
+async def make_some(message: telebot.types.ChatJoinRequest):
+    await bot.send_message(message.chat.id, 'I accepted a new user!')
+    await bot.approve_chat_join_request(message.chat.id, message.from_user.id)
+
+import asyncio
+asyncio.run(bot.polling())
